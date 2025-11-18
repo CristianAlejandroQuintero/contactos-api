@@ -44,22 +44,20 @@ pipeline {
                 powershell '''
                 docker build -t "$env:DOCKER_IMAGE:$env:DOCKER_TAG" .
                 '''
-
-
             }
         }
 
         stage('Docker Run (Smoke Test)') {
             steps {
-                powershell """
-                    docker run -d --name test_container -p 8080:80 $env:DOCKER_IMAGE:$env:DOCKER_TAG
-                    Start-Sleep -Seconds 5
-                    docker logs test_container
-                """
+                powershell '''
+                docker run -d --name test_container -p 8080:80 "$env:DOCKER_IMAGE:$env:DOCKER_TAG"
+                Start-Sleep -Seconds 5
+                docker logs test_container
+                '''
             }
             post {
                 always {
-                    powershell "docker rm -f test_container"
+                    powershell 'docker rm -f test_container'
                 }
             }
         }
