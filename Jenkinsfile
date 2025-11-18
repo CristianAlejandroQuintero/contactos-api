@@ -41,11 +41,10 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                powershell """
-                \$image = "\$env:DOCKER_IMAGE"
-                \$tag = "\$env:DOCKER_TAG"
-                docker build -t \$($image):\$($tag) .
-                """
+                powershell '''
+                docker build -t "$env:DOCKER_IMAGE:$env:DOCKER_TAG" .
+                '''
+
 
             }
         }
