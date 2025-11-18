@@ -35,17 +35,18 @@ pipeline {
 
         stage('Publish') {
             steps {
-                powershell """
-                \$image = "\$env:DOCKER_IMAGE"
-                \$tag = "\$env:DOCKER_TAG"
-                docker build -t \$image:\$tag .
-                """
+                powershell 'dotnet publish -c Release -o out'
             }
         }
 
         stage('Docker Build') {
             steps {
-                powershell "docker build -t $env:DOCKER_IMAGE:$env:DOCKER_TAG ."
+                powershell """
+                \$image = "\$env:DOCKER_IMAGE"
+                \$tag = "\$env:DOCKER_TAG"
+                docker build -t \$($image):\$($tag) .
+                """
+
             }
         }
 
