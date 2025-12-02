@@ -1,0 +1,16 @@
+﻿language: csharp
+mono: none
+dotnet: 6.0
+dist: focal
+
+branches:
+  only:
+    - main
+
+script:
+  - dotnet restore
+  - dotnet build --configuration Release
+
+cache:
+  directories:
+    - ~/.nuget/packages
